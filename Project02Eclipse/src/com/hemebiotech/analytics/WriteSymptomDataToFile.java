@@ -1,4 +1,4 @@
-package com.hemebiotech.analytic;
+package com.hemebiotech.analytics;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,21 +10,21 @@ public abstract class WriteSymptomDataToFile implements ISymptomWriter{
 	
 private String filepath;
 	
-	/**
-	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it, one per line
-	 */
+	// initialise le chemin du fichier a lire grace a (filepath)
+
 	public WriteSymptomDataToFile (String filepath) {
 		this.filepath = filepath;
 	}
 	
-	@Override
+	// Lit les symptomes depuis le fichier source 
+	//si aucune reponse n'est trouvé alors cela affichera (null)
+	
 	public List<String> writeSymptoms() {
 		List<String> result = new ArrayList<>();
 		
 		if (filepath != null) {
 			try {
-				BufferedReader reader = new BufferedReader (new FileReader(filepath));
+				BufferedReader reader = new BufferedReader (new FileReader("result.out"));
 				String line = reader.readLine();
 				
 				while (line != null) {

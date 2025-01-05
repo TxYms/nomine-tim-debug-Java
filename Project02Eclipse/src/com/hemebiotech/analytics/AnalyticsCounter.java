@@ -1,52 +1,67 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
+import java.util.*;
 import java.io.FileReader;
 import java.io.FileWriter;
 
+// AnalyticsCounter lit les symptomes depuis un fichier soure pour les retranscrire dans un fichier de sortie 
+
 public class AnalyticsCounter {
 	
-	private static int headacheCount = 0;	
-	private static int rashCount = 0;		
-	private static int pupilCount = 0;		
+	private ISymptomReader reader;
+	private ISymptomWriter writer;
 	
-	public static void main(String args[]) throws Exception {
-		
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt")); 
-		String line = reader.readLine();
-		reader.close();
+	// reader implemente ISymptomReader pour lire les symptomes 
+	// writer implemente ISymptomWriter pour écrire les symptomes 
+	   
 	
-			
-		int headCount = 0;	
-		while (line != null) {
-			
-			
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headacheCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rash")) {
-				rashCount++;
-			}
-			else if (line.equals("pupils")) {
-				pupilCount++;
-			}
-
-	
-
-			line = reader.readLine(); 
-		
-		}
-		
-		
-			
-		
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dilated pupils: " + pupilCount + "\n");
-		writer.close();
-		}
+	public AnalyticsCounter(ISymptomReader reader, ISymptomWriter writer) {
+		this.reader = reader;
+		this.writer = writer;
 		
 	}
+	
+	// Lit les symptomes depuis le fichier source 
+	
+	public List<String> getSymptoms() {		
+		return reader.readSymptoms();
+	
+	}
+	
+	// compte le nombre de symptom dans le fichier 
+			
+	public Map<String, Integer> countSymptoms(List<String> symptoms) {
+        Map<String, Integer> symptomCounts = new HashMap<>();
+        symptoms.forEach(symptom -> symptomCounts.put(symptom, symptomCounts.getOrDefault(symptom, 0) + 1));
+        return symptomCounts;
+    }
+	
+	// trie les symptomes par ordre alphabétique grace a TreeMap
+
+    public Map<String, Integer> sortSymptoms(Map<String, Integer> symptoms) {
+        return new TreeMap<>(symptoms);
+    }
+    
+    // Ecrit les symptomes et leur nombre dans le fichier de sortie 
+
+    public void writeSymptoms(Map<String, Integer> symptoms) {
+        writer.writeSymptoms(symptoms);
+    }
+    
+    // implemente ISymptomReader et ISymptomWriter pour traiter les fichiers d'entrée et de sortie 
+
+    public static void main(String[] args) {
+        ISymptomReader reader = new SymptomFileReader();
+        ISymptomWriter writer = new SymptomFileWriter();
+
+        AnalyticsCounter analyticsCounter = new AnalyticsCounter(reader, writer);
+        
+        List<String> symptoms = analyticsCounter.getSymptoms(); 
+        Map<String, Integer> countedSymptoms = analyticsCounter.countSymptoms(symptoms); 
+        Map<String, Integer> sortedSymptoms = analyticsCounter.sortSymptoms(countedSymptoms); 
+        analyticsCounter.writeSymptoms(sortedSymptoms);
+       
+        
+    }
+    
+}

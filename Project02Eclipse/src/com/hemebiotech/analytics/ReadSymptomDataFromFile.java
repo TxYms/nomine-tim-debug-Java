@@ -6,21 +6,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadSymptomDataFromFile implements ISymptomReader {
+public abstract class ReadSymptomDataFromFile implements ISymptomReader {
 
 	private String filepath;
 	
-	/**
-	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it, one per line
-	 */
+	// initialise le chemin du fichier à lire grace a (filepath)
+	
 	public ReadSymptomDataFromFile (String filepath) {
 		this.filepath = filepath;
 	}
 	
-	@Override
-	public List<String> GetSymptoms() {
-		ArrayList<String> result = new ArrayList<String>();
+	// Lit les symptomes depuis le fichier source 
+	//si aucune reponse n'est trouvé alors cela affichera (null)
+	
+	public List<String> readSymptoms() {
+		ArrayList<String> result = new ArrayList<>();
 		
 		if (filepath != null) {
 			try {
@@ -40,4 +40,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 		return result;
 	}
 
-}
+	
+	}
+
+
