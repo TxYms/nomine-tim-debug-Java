@@ -7,11 +7,14 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		// instanciation pour lire les fichiers depuis input.txt
-		ISymptomReader reader = new SymptomFileReader("input.txt");
+		String inputFile = "symptom.txt";
+		String outputFile = "result.out.txt";
 		
-		//instanciation pour ecrire les resultats dans output.txt
-		ISymptomWriter writer = new SymptomFileWriter("output.txt");
+		// instanciation pour lire les fichiers depuis symptom.txt
+		ISymptomReader reader = new SymptomFileReader(inputFile);
+		
+		//instanciation pour ecrire les resultats dans result.out
+		ISymptomWriter writer = new SymptomFileWriter(outputFile);
 		
 		//traitement des symptomes
 		AnalyticsCounter analyticsCounter = new AnalyticsCounter(reader, writer);

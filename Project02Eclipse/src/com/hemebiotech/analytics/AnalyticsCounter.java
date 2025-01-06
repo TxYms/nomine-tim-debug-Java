@@ -1,8 +1,6 @@
 package com.hemebiotech.analytics;
 
 import java.util.*;
-import java.io.FileReader;
-import java.io.FileWriter;
 
 // AnalyticsCounter lit les symptomes depuis un fichier soure pour les retranscrire dans un fichier de sortie 
 
@@ -51,8 +49,8 @@ public class AnalyticsCounter {
     // implemente ISymptomReader et ISymptomWriter pour traiter les fichiers d'entrée et de sortie 
 
     public static void main(String[] args) {
-        ISymptomReader reader = new SymptomFileReader();
-        ISymptomWriter writer = new SymptomFileWriter();
+        ISymptomReader reader = new SymptomFileReader("symptoms.txt");
+        ISymptomWriter writer = new SymptomFileWriter("result.out.txt");
 
         AnalyticsCounter analyticsCounter = new AnalyticsCounter(reader, writer);
         
