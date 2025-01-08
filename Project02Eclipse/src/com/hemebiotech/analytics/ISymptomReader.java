@@ -9,6 +9,6 @@ public interface ISymptomReader {
 	// Lit les symtpomes depuis un fichier source
 	
 	
-	List<String> readSymptoms ();
+	List<String> readSymptoms (); 
 
 }
